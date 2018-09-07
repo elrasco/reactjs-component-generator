@@ -65,7 +65,6 @@ function renderPaths(files, metalsmith, done) {
   const keys = Object.keys(files);
   const metadata = metalsmith.metadata();
 
-  console.log(keys, metadata);
   keys.forEach(key => {
     let newKey = replaceVars(key, metadata);
 
