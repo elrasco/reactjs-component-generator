@@ -5,7 +5,7 @@ export default class {{name_pc}} extends Component
     render(){
         return(
             <div className="{{name_pc}}">
-
+              {{name_pc}} 
             </div>
         )
     }
