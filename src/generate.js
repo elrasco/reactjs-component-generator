@@ -38,11 +38,10 @@ module.exports = function generate(type, options, settings) {
     .clean(false)
     .use(renderPaths)
     .use(renderTemplates)
-    .build(function (err) {
+    .build(function(err) {
       if (err) {
         console.error(chalk.red(err));
-      }
-      else {
+      } else {
         console.log();
         console.log(chalk.green('Done!'));
       }
@@ -55,7 +54,7 @@ function getNames(name) {
     name_cc: toCamelCase(name),
     name_pc: toPascalCase(name),
     name_sc: toSlugCase(name)
-  }
+  };
 }
 
 function pathExists(value) {
@@ -66,7 +65,8 @@ function renderPaths(files, metalsmith, done) {
   const keys = Object.keys(files);
   const metadata = metalsmith.metadata();
 
-  keys.forEach((key) => {
+  console.log(keys, metadata);
+  keys.forEach(key => {
     let newKey = replaceVars(key, metadata);
 
     if (newKey != key) {
@@ -85,13 +85,13 @@ function renderTemplates(files, metalsmith, done) {
   async.each(keys, run, done);
 
   function run(file, done) {
-    if(isTextOrBinary.isBinarySync(path.basename(file), files[file].contents)) {
+    if (isTextOrBinary.isBinarySync(path.basename(file), files[file].contents)) {
       done();
       return;
     }
 
     let str = files[file].contents.toString();
-    render(str, metadata, function (err, res) {
+    render(str, metadata, function(err, res) {
       if (err) {
         return done(err);
       }
@@ -103,7 +103,7 @@ function renderTemplates(files, metalsmith, done) {
 
 function replaceVars(value, object) {
   return value.replace(/\$?\{([@#$%&\w\.]*)(\((.*?)\))?\}/gi, (match, name) => {
-    const props = name.split(".");
+    const props = name.split('.');
     const prop = props.shift();
     let o = object;
 
@@ -113,4 +113,3 @@ function replaceVars(value, object) {
     return '';
   });
 }
-
